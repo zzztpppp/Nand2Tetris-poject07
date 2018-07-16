@@ -61,6 +61,28 @@ class VMtranslator(object):
             """
             Translate VM memory access command into machine code
             """
+            sub_commands = vm_command.split()
+            machine_code = ''    # Machine code generated
+            
+            # Handles constant operation
+            if sub_commands[1] == 'constant':
+                machine_code += '@{}\n'.format(sub_commands[2]) + 'D=A\n'
+                machine_code += '@SP\n' + 'M=D\n'
+                machine_code += 'A=A+1\n'
+            
+            return machine_code
+        
+        @staticmethod
+        def translate_arithmmic_logical_cmd(vm_command):
+            """
+            Translate VM arithmmic/logical commands into corresponding machine code.
+            """
+            
+            machine_code = ''
+            if vm_command == 'push':
+                machine_code += '@SP\n'
+                machine_code += 
+                    
             
             
         
