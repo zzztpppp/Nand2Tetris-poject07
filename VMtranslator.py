@@ -79,10 +79,15 @@ class VMtranslator(object):
             """
             
             machine_code = ''
-            if vm_command == 'push':
+            if vm_command == 'add':
                 machine_code += '@SP\n'
-                machine_code += 
-                    
+                machine_code += 'A=A-1\n'
+                machine_code += 'A=M\n'
+                machine_code += 'D=M\n'
+                machine_code += '@SP\n'
+                machine_code += 'A=A-1'
+                machine_code += 'M=D+M'
+                   
             
             
         
