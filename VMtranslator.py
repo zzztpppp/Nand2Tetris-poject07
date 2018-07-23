@@ -80,13 +80,50 @@ class VMtranslator(object):
             
             machine_code = ''
             if vm_command == 'add':
+                machine_code += VMtranslator._pop_to_temp()
                 machine_code += '@SP\n'
-                machine_code += 'A=A-1\n'
-                machine_code += 'A=M\n'
-                machine_code += 'D=M\n'
-                machine_code += '@SP\n'
-                machine_code += 'A=A-1'
-                machine_code += 'M=D+M'
+                machine_code += 'D=M-1\n'
+                machine_code += ''
+        
+        @staticmethod
+        def _push_constant(number):
+            """
+            Push a constant into the stack
+            """
+            machine_code = '@SP\n'
+            machine_code += 'D=M\n'
+            machine_code += '@256\n'
+            machine_code += 'D=D+A'
+            machine_code += '@stackAddr\n'
+            machine_code += 'M=D'
+            machine_code += '@{}\n'.format(number)
+            machine_code += 'D=M\n'
+            machine_code += '@stackAddr\n'
+            machine_code += 'M=D\n'
+            machine_code += '@SP\n'
+            machine_code += 'M=M+1\n'
+            
+            return machine_code
+        @staticmethod
+        def _pop_to_temp()
+            """
+            Generate the machine code segment for pop from top of the stack.
+            And store it into variable temp
+            """
+            
+            machine_code = '@SP\n'
+            machine_code += 'M=M-1'
+            machine_code += 'D=M\n'
+            machine_code += '@256\n'
+            machine_code += 'D=D+A\n'
+            machine_code += 'A=D\n'
+            machine_code += 'D=M\n'
+            machine_code += '@temp\n'
+            machine_code += 'M=D'
+            
+            return machine_code
+            
+            
                    
             
             
