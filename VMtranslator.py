@@ -80,15 +80,24 @@ class VMtranslator(object):
         if vm_command == 'add':
             machine_code += VMtranslator._pop_to_temp()
             machine_code += '@SP\n'
-            machine_code += 'D=M-1\n'
-            machine_code += 'A=D\n'
+            machine_code += 'A=M-1\n'
             machine_code += 'D=M\n'
             machine_code += '@temp\n'
             machine_code += 'D=D+M\n'
             machine_code += '@SP\n'
             machine_code += 'A=M-1\n'
             machine_code += 'M=D\n'
-        if vm_command == ''
+        if vm_command == 'sub':
+            vm_command += VMtranslator._pop_to_temp()
+            machine_code += '@SP\n'
+            machine_code += 'A=M-1\n'
+            machine_code += 'D=M\n'
+            machine_code += '@temp\n'
+            machine_code += 'D=D-M\n'
+            machine_code += '@SP\n'
+            machine_code += 'A=M-1\n'
+            machine_code += 'M=D\n'
+        # if vm_command == ''
         return machine_code
        
     
