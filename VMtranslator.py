@@ -84,6 +84,24 @@ class VMtranslator(object):
                 machine_code += '@SP\n'
                 machine_code += 'D=M-1\n'
                 machine_code += ''
+		    if vm_command == 'sub':
+			    machine_code = VMtranslator._pop_to_temp()
+                machine_code += '@SP\n'
+                machine_code += 'D=M-1\n'
+                machine_code += 'A=D\n'
+                machine_code += 'D=M\n'
+                machine_code += '@temp\n'
+                machine_code += 'D=D-M\n'
+                machine_code += '@SP\n'
+                machine_code += 'A=M-1\n'
+                machine_code += 'M=D\n'
+            if vm_command == 'neg':
+                machine_code  = '@SP\n'
+                machine_code += 'A=M-1\n'
+                machine_code += 'M=-M\n'
+            if vm_command == ''
+                
+                
         
         @staticmethod
         def _push_constant(number):
