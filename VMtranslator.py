@@ -66,7 +66,7 @@ class VMtranslator(object):
         # Handles constant operation
         if sub_commands[1] == 'constant':
             machine_code = VMtranslator._push_constant(sub_commands[2])
-        if sub_commands[1] == 'local' or sub_commands[1] == 'argument' or sub_commands[1] == 'this' or sub_commands[1] == 'that' or sub_commands[1] == 'temp':
+        if sub_commands[1] == 'local' or sub_commands[1] == 'argument' or sub_commands[1] == 'this' or sub_commands[1] == 'that' or sub_commands[1] == 'temp' or sub_commands[1] == 'pointer' or sub_commands[1] == 'static':
             machine_code += VMtranslator._handle_basic_memory_access(sub_commands)
         
         return machine_code
@@ -200,10 +200,11 @@ class VMtranslator(object):
         
     @staticmethod
     def _handle_basic_memory_access(sub_commands):
-        map = {'local': 'LCL', 'argument': 'ARG', 'this': 'THIS', 'that': 'THAT', 'temp': '5'}
+        map = {'local': 'LCL', 'argument': 'ARG', 'this': 'THIS', 'that': 'THAT', 'temp': '5', 
+               'static': '16', 'pointer': '3'}
         machine_code = ''
         if sub_commands[0] == 'push':
-            if sub_commands[1] == 'temp' or sub_commands[1] == 'static':
+            if sub_commands[1] == 'temp' or sub_commands[1] == 'static' or sub_commands[1] == 'pointer':
                 machine_code += '@{}\n'.format(map[sub_commands[1]])
                 machine_code += 'D=A\n'
             else: 
@@ -219,7 +220,7 @@ class VMtranslator(object):
             machine_code += 'M=M+1'
         if sub_commands[0] == 'pop':
             machine_code += VMtranslator._pop_to_temp()
-            if sub_commands[1] == 'temp' or sub_commands == 'static':
+            if sub_commands[1] == 'temp' or sub_commands[1] == 'static' or sub_commands[1] == 'pointer':
                 machine_code += '@{}\n'.format(map[sub_commands[1]])
                 machine_code += 'D=A\n'
             else:
